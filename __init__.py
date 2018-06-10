@@ -4,8 +4,9 @@ from .csv_proc import *
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_csv_hilite.ini')
 MYTAG = 201
-PALETTE = (0xA00000,0x00A000,0x0000A0,0xAAAA00,0x00AAAA,0xAA00AA)
-COLOR_COMMA = 0x000080
+
+PALETTE = (0xFF0000,0x00AA00,0x0000FF,0x880000,0x004400,0x000088)
+COLOR_COMMA = 0x000000
 
 option_int = 100
 option_bool = True
