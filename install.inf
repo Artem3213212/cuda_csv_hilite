@@ -1,0 +1,22 @@
+[info]
+title=CSV Hilite
+desc=Some description
+type=cudatext-plugin
+subdir=cuda_csv_hilite
+homepage=
+
+[item1]
+section=events
+events=on_open,on_scroll
+
+[item2]
+section=commands
+caption=MySample
+method=run
+
+[item100]
+section=commands
+caption=CSV Hilite\Config
+method=config
+menu=o
+
