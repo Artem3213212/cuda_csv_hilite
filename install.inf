@@ -8,6 +8,7 @@ homepage=
 [item1]
 section=events
 events=on_open,on_scroll
+lexers=CSV
 
 [__item100]
 section=commands
