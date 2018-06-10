@@ -1,9 +1,15 @@
 import os
 from cudatext import *
+import cudatext_cmd as cmds
 from .csv_proc import *
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_csv_hilite.ini')
 MYTAG = 201
+
+if hasattr(cmds, 'cmd_RepaintEditor'):
+    REPAINT_CMD = cmds.cmd_RepaintEditor
+else:
+    REPAINT_CMD = -1
 
 PALETTE = (0xFF0000,0x00AA00,0x0000FF,0x880000,0x004400,0x000088)
 COLOR_COMMA = 0x000000
@@ -68,3 +74,6 @@ class Command:
                     color_font=ncolor,
                     color_bg=COLOR_NONE,
                     )
+
+        if REPAINT_CMD>0:
+            ed.cmd(REPAINT_CMD)
