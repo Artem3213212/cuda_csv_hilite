@@ -7,7 +7,7 @@ homepage=https://github.com/Artem3213212/cuda_csv_hilite
 
 [item1]
 section=events
-events=on_open,on_scroll,on_change_slow
+events=on_open,on_scroll,on_change_slow,on_mouse_stop
 lexers=CSV ^
 
 [__item100]

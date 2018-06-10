@@ -86,3 +86,36 @@ class Command:
                     color_bg=COLOR_NONE,
                     )
 
+
+    def get_header(self, n):
+        
+        s = ed.get_text_line(0)
+        if not s: return
+        res = parse_csv_line(s)
+        if not res: return
+        
+        for x1, x2, kind in res:
+            if kind==n:
+                return s[x1:x2]
+                
+
+    def on_mouse_stop(self, ed_self, x, y):
+    
+        res = ed_self.convert(CONVERT_PIXELS_TO_CARET, x, y, '')
+        if res is None: return
+        x, y = res
+        
+        s = ed.get_text_line(y)
+        if not s: return
+        if x>=len(s): return
+        
+        res = parse_csv_line(s)
+        if not res: return
+        
+        for x1, x2, kind in res:
+            if x1<=x<x2:
+                if kind>=0:
+                    msg_status('CSV column %d (%s)' % (kind+1, self.get_header(kind)))
+                else:
+                    msg_status('')
+                break
