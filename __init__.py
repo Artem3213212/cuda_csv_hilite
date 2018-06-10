@@ -43,11 +43,9 @@ class Command:
 
     def update(self):
     
-        if ed.get_prop(PROP_LEXER_FILE, '') != 'CSV': return
         ed.attr(MARKERS_DELETE_BY_TAG, tag=MYTAG)
-    
         line1 = ed.get_prop(PROP_LINE_TOP)
-        line2 = ed.get_prop(PROP_LINE_BOTTOM)+1
+        line2 = ed.get_prop(PROP_LINE_BOTTOM)
         
         for line in range(line1, line2+1):
             s = ed.get_text_line(line)

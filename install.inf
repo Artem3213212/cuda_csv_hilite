@@ -8,7 +8,7 @@ homepage=
 [item1]
 section=events
 events=on_open,on_scroll,on_change_slow
-lexers=CSV
+lexers=CSV ^
 
 [__item100]
 section=commands
