@@ -4,7 +4,7 @@ from .csv_proc import *
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_csv_hilite.ini')
 MYTAG = 201
-PALETTE = (0xA00000,0x00A000,0x0000A0,0xAAAA00,0x00AAAA,0xAA00AA,0x80FF80)
+PALETTE = (0xA00000,0x00A000,0x0000A0,0xAAAA00,0x00AAAA,0xAA00AA)
 COLOR_COMMA = 0x000080
 
 option_int = 100
@@ -46,10 +46,12 @@ class Command:
         
         for line in range(line1, line2+1):
             s = ed.get_text_line(line)
+            if not s: continue
+            
             res = parse_csv_line(s)
             if not res: continue
-            for x1, x2, kind in res:
             
+            for x1, x2, kind in res:
                 if kind<0:
                     ncolor = COLOR_COMMA
                 else:
