@@ -13,6 +13,7 @@ else:
 
 PALETTE = (0xFF0000,0x00AA00,0x0000FF,0x880000,0x004400,0x000088)
 COLOR_COMMA = 0x000000
+TIMERFUNC = 'module=cuda_csv_hilite;cmd=timer_tick;'
 
 option_int = 100
 option_bool = True
@@ -48,6 +49,15 @@ class Command:
         self.update()
 
     def update(self):
+    
+        timer_proc(TIMER_STOP, TIMERFUNC, 0)
+        timer_proc(TIMER_START_ONE, TIMERFUNC, 200)
+        
+    def timer_tick(self, data='', info='', tag=''):
+    
+        self.update_work()
+    
+    def update_work(self):
     
         ed.attr(MARKERS_DELETE_BY_TAG, tag=MYTAG)
         line1 = ed.get_prop(PROP_LINE_TOP)
