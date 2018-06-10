@@ -5,6 +5,7 @@ from .csv_proc import *
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_csv_hilite.ini')
 MYTAG = 201
+TIMERTIME = 150
 TIMERFUNC = 'module=cuda_csv_hilite;cmd=timer_tick;'
 
 #if hasattr(cmds, 'cmd_RepaintEditor'):
@@ -51,7 +52,7 @@ class Command:
     def update(self):
     
         timer_proc(TIMER_STOP, TIMERFUNC, 0)
-        timer_proc(TIMER_START_ONE, TIMERFUNC, 200)
+        timer_proc(TIMER_START_ONE, TIMERFUNC, TIMERTIME)
         
     def timer_tick(self, data='', info='', tag=''):
     
