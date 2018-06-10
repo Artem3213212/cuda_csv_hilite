@@ -4,6 +4,8 @@ def parse_csv_line(s,sep=',',quote='"'):
     Gets fragments as list of 3-lists: [offset_start, offset_end, kind]
     kind: -1 for comma, 0+ for column
     '''
+    if s=='' or s==None:
+        return []
     res=[]
     col,x,b=0,0,True
     for i,c in enumerate(s):
@@ -30,10 +32,9 @@ def parse_csv_line(s,sep=',',quote='"'):
         i=s.find(quote,i+1)
         if i==-1:
             return res
-        if not(i==0 or s[i-1]==sep):
+        if not (i==0 or s[i-1]==sep):
             break
         i=s.find(quote,i+1)
-        if not(i==len(s)-1 or s[i+1]==sep):
+        if not (i==len(s)-1 or s[i+1]==sep):
             break
     return []
-
