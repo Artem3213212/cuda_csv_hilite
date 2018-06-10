@@ -37,6 +37,10 @@ class Command:
     
         self.update()
 
+    def on_change_slow(self, ed_self):
+    
+        self.update()
+
     def update(self):
     
         if ed.get_prop(PROP_LEXER_FILE, '') != 'CSV': return
