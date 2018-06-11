@@ -21,16 +21,10 @@ def str_to_bool(s): return s=='1'
 
 _theme = app_proc(PROC_THEME_SYNTAX_DATA_GET, '')
 
-def _getitem(name):
+def _theme_item(name):
     for i in _theme:
         if i['name']==name:
             return i['color_font']
-
-def get_theme_palette():
-    return [_getitem(s) for s in option_colors_themed.split(',')]
-
-def get_theme_comma():
-    return _getitem('Symbol')
 
 
 class Command:
@@ -50,8 +44,8 @@ class Command:
         option_use_theme_colors = str_to_bool(ini_read(fn_config, 'op', 'use_theme_colors', bool_to_str(option_use_theme_colors)))
 
         if option_use_theme_colors:
-            COLOR_COMMA = get_theme_comma()
-            PALETTE = get_theme_palette()
+            COLOR_COMMA = _theme_item('Symbol')
+            PALETTE = [_theme_item(s) for s in option_colors_themed.split(',')]
         else:
             COLOR_COMMA = html_color_to_int(option_color_comma)
             PALETTE = [html_color_to_int(s) for s in option_colors_fixed.split(',')]
