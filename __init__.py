@@ -25,6 +25,7 @@ def _theme_item(name):
     for i in _theme:
         if i['name']==name:
             return i['color_font']
+    return 0x808080
 
 
 class Command:
