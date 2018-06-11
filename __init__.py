@@ -8,16 +8,12 @@ MYTAG = 201
 TIMERTIME = 150
 TIMERCALL = 'module=cuda_csv_hilite;cmd=timer_tick;'
 
-#if hasattr(cmds, 'cmd_RepaintEditor'):
-#    REPAINT_CMD = cmds.cmd_RepaintEditor
-#else:
-#    REPAINT_CMD = -1
-
 PALETTE = (0xFF0000,0x00AA00,0x0000FF,0x880000,0x004400,0x000088)
 COLOR_COMMA = 0x000000
 
-option_int = 100
-option_bool = True
+option_color_comma = '#000000'
+option_colors = '#0000FF,#00AA00,#E00000,#000080,#004400,#900000,#A0A000'
+option_use_theme_colors = False
 
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
@@ -26,15 +22,19 @@ class Command:
     
     def __init__(self):
 
-        global option_int
-        global option_bool
-        option_int = int(ini_read(fn_config, 'op', 'option_int', str(option_int)))
-        option_bool = str_to_bool(ini_read(fn_config, 'op', 'option_bool', bool_to_str(option_bool)))
+        global option_color_comma
+        global option_colors
+        global option_use_theme_colors
+        
+        option_color_comma = ini_read(fn_config, 'op', 'color_comma', option_color_comma)
+        option_colors = ini_read(fn_config, 'op', 'colors', option_colors)
+        option_use_theme_colors = str_to_bool(ini_read(fn_config, 'op', 'use_theme_colors', bool_to_str(option_use_theme_colors)))
 
     def config(self):
 
-        ini_write(fn_config, 'op', 'option_int', str(option_int))
-        ini_write(fn_config, 'op', 'option_bool', bool_to_str(option_bool))
+        ini_write(fn_config, 'op', 'color_comma', option_color_comma)
+        ini_write(fn_config, 'op', 'colors', option_colors)
+        ini_write(fn_config, 'op', 'use_theme_colors', bool_to_str(option_use_theme_colors))
         file_open(fn_config)
         
     def on_open(self, ed_self):
