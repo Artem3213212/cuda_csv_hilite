@@ -83,8 +83,10 @@ class Command:
     def update_work(self):
 
         ed.attr(MARKERS_DELETE_BY_TAG, tag=MYTAG)
-        line1 = ed.get_prop(PROP_LINE_TOP)
-        line2 = ed.get_prop(PROP_LINE_BOTTOM)
+
+        pagesize = ed.get_prop(PROP_VISIBLE_LINES)
+        line1 = max(ed.get_prop(PROP_LINE_TOP) - pagesize, 0)
+        line2 = min(ed.get_prop(PROP_LINE_BOTTOM) + pagesize, ed.get_line_count()-1)
 
         for line in range(line1, line2+1):
             s = ed.get_text_line(line)
