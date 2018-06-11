@@ -1,6 +1,6 @@
 import os
 from cudatext import *
-#import cudatext_cmd as cmds
+from cudax_lib import html_color_to_int
 from .csv_proc import *
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_csv_hilite.ini')
@@ -12,7 +12,7 @@ PALETTE = (0xFF0000,0x00AA00,0x0000FF,0x880000,0x004400,0x000088)
 COLOR_COMMA = 0x000000
 
 option_color_comma = '#000000'
-option_colors = '#0000FF,#00AA00,#E00000,#000080,#004400,#900000,#A0A000'
+option_colors = '#0000FF,#00AA00,#E00000,#000080,#004400,#900000,#909000'
 option_use_theme_colors = False
 
 def bool_to_str(v): return '1' if v else '0'
@@ -25,10 +25,15 @@ class Command:
         global option_color_comma
         global option_colors
         global option_use_theme_colors
+        global PALETTE
+        global COLOR_COMMA
         
         option_color_comma = ini_read(fn_config, 'op', 'color_comma', option_color_comma)
         option_colors = ini_read(fn_config, 'op', 'colors', option_colors)
         option_use_theme_colors = str_to_bool(ini_read(fn_config, 'op', 'use_theme_colors', bool_to_str(option_use_theme_colors)))
+        
+        COLOR_COMMA = html_color_to_int(option_color_comma)
+        PALETTE = [html_color_to_int(s) for s in option_colors.split(',')] 
 
     def config(self):
 
