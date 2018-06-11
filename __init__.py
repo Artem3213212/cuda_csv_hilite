@@ -59,7 +59,7 @@ class Command:
         timer_proc(TIMER_STOP, TIMERCALL, 0)
         timer_proc(TIMER_START_ONE, TIMERCALL, TIMERTIME)
         
-    def timer_tick(self, data='', info='', tag=''):
+    def timer_tick(self, tag='', info=''):
     
         self.update_work()
     
