@@ -12,33 +12,55 @@ PALETTE = (0xFF0000,0x00AA00,0x0000FF,0x880000,0x004400,0x000088)
 COLOR_COMMA = 0x000000
 
 option_color_comma = '#000000'
-option_colors = '#0000FF,#00AA00,#E00000,#000080,#004400,#900000,#909000'
-option_use_theme_colors = False
+option_colors_fixed = '#0000FF,#00AA00,#E00000,#000080,#004400,#900000,#909000'
+option_colors_themed = 'Id,Id1,Id2,Id3,Id4,IdVar,String,Comment,Comment2,Label,Color'
+option_use_theme_colors = True
 
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
+
+_theme = app_proc(PROC_THEME_SYNTAX_DATA_GET, '')
+
+def _getitem(name):
+    for i in _theme:
+        if i['name']==name:
+            return i['color_font']
+            
+def get_theme_palette():
+    return [_getitem(s) for s in option_colors_themed.split(',')]
+    
+def get_theme_comma():
+    return _getitem('Symbol')
+    
 
 class Command:
     
     def __init__(self):
 
         global option_color_comma
-        global option_colors
+        global option_colors_fixed
+        global option_colors_themed
         global option_use_theme_colors
         global PALETTE
         global COLOR_COMMA
         
         option_color_comma = ini_read(fn_config, 'op', 'color_comma', option_color_comma)
-        option_colors = ini_read(fn_config, 'op', 'colors', option_colors)
+        option_colors_fixed = ini_read(fn_config, 'op', 'colors_fixed', option_colors_fixed)
+        option_colors_themed = ini_read(fn_config, 'op', 'colors_themed', option_colors_themed)
         option_use_theme_colors = str_to_bool(ini_read(fn_config, 'op', 'use_theme_colors', bool_to_str(option_use_theme_colors)))
         
-        COLOR_COMMA = html_color_to_int(option_color_comma)
-        PALETTE = [html_color_to_int(s) for s in option_colors.split(',')] 
+        if option_use_theme_colors:
+            COLOR_COMMA = get_theme_comma()
+            PALETTE = get_theme_palette()
+        else:
+            COLOR_COMMA = html_color_to_int(option_color_comma)
+            PALETTE = [html_color_to_int(s) for s in option_colors_fixed.split(',')] 
 
     def config(self):
 
         ini_write(fn_config, 'op', 'color_comma', option_color_comma)
-        ini_write(fn_config, 'op', 'colors', option_colors)
+        ini_write(fn_config, 'op', 'colors_fixed', option_colors_fixed)
+        ini_write(fn_config, 'op', 'colors_themed', option_colors_themed)
         ini_write(fn_config, 'op', 'use_theme_colors', bool_to_str(option_use_theme_colors))
         file_open(fn_config)
         
