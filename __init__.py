@@ -6,7 +6,7 @@ from .csv_proc import *
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_csv_hilite.ini')
 MYTAG = 201
 TIMERTIME = 150
-TIMERFUNC = 'module=cuda_csv_hilite;cmd=timer_tick;'
+TIMERCALL = 'module=cuda_csv_hilite;cmd=timer_tick;'
 
 #if hasattr(cmds, 'cmd_RepaintEditor'):
 #    REPAINT_CMD = cmds.cmd_RepaintEditor
@@ -51,8 +51,8 @@ class Command:
 
     def update(self):
     
-        timer_proc(TIMER_STOP, TIMERFUNC, 0)
-        timer_proc(TIMER_START_ONE, TIMERFUNC, TIMERTIME)
+        timer_proc(TIMER_STOP, TIMERCALL, 0)
+        timer_proc(TIMER_START_ONE, TIMERCALL, TIMERTIME)
         
     def timer_tick(self, data='', info='', tag=''):
     
@@ -96,7 +96,9 @@ class Command:
         
         for x1, x2, kind in res:
             if kind==n:
-                return s[x1:x2]
+                s = s[x1:x2]
+                s = s.strip('"').replace('""', '"')
+                return s
                 
 
     def on_mouse_stop(self, ed_self, x, y):
@@ -118,5 +120,5 @@ class Command:
             if x1<=x<x2:
                 if kind>=0:
                     cap = self.get_header(kind) or '?'
-                    msg_status('CSV column %d (%s)' % (kind+1, cap))
+                    msg_status('Column %d (%s)' % (kind+1, cap))
                 break
