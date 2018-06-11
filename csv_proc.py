@@ -1,10 +1,11 @@
 def parse_csv_line(s,sep=',',quote='"'):
     '''
-    Parses one CSV line
+    Parses one CSV line (by Artem)
     Gets fragments as list of 3-lists: [offset_start, offset_end, kind]
+    Gets [] for incorrect line
     kind: -1 for comma, 0+ for column
     '''
-    if s=='' or s==None:
+    if not s:
         return []
     res=[]
     col,x,b=0,0,True
