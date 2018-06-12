@@ -133,7 +133,7 @@ class Command:
         x, y = res
         if y==0: return
 
-        s = ed.get_text_line(y)
+        s = ed_self.get_text_line(y)
         if not s: return
         if x>=len(s): return
 
