@@ -1,3 +1,7 @@
 
+2018.06.12
+- fix: CSV hilite in active non-CSV file
+- fix: not hilited lines on scrolling
+
 2018.06.10
 initial
