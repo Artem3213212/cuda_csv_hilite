@@ -111,7 +111,7 @@ class Command:
                     )
 
 
-    def get_header(self, n):
+    def get_header(self, ed, n):
 
         s = ed.get_text_line(0)
         if not s: return
@@ -143,6 +143,6 @@ class Command:
         for x1, x2, kind in res:
             if x1<=x<x2:
                 if kind>=0:
-                    cap = self.get_header(kind) or '?'
+                    cap = self.get_header(ed_self, kind) or '?'
                     msg_status('Column %d (%s)' % (kind+1, cap))
                 break
