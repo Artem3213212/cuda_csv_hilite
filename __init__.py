@@ -7,6 +7,7 @@ fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_csv_hilite.ini')
 MYTAG = 201
 TIMERTIME = 150
 TIMERCALL = 'module=cuda_csv_hilite;cmd=timer_tick;'
+NEED_LEXER = 'CSV ^'
 
 PALETTE = (0xFF0000,0x00AA00,0x0000FF,0x880000,0x004400,0x000088)
 COLOR_COMMA = 0x000000
@@ -61,14 +62,17 @@ class Command:
 
     def on_open(self, ed_self):
 
+        self.ed_ = ed_self
         self.update()
 
     def on_scroll(self, ed_self):
 
+        self.ed_ = ed_self
         self.update()
 
     def on_change_slow(self, ed_self):
 
+        self.ed_ = ed_self
         self.update()
 
     def update(self):
@@ -82,6 +86,8 @@ class Command:
 
     def update_work(self):
 
+        ed = self.ed_ #used ed_self here
+        if ed.get_prop(PROP_LEXER_FILE, '') != NEED_LEXER: return
         ed.attr(MARKERS_DELETE_BY_TAG, tag=MYTAG)
 
         pagesize = ed.get_prop(PROP_VISIBLE_LINES)
