@@ -1,5 +1,5 @@
 [info]
-title=CSV Hilite
+title=CSV Helper
 desc=Highlights columns in CSV files with different colors. Requires "CSV" lite lexer installed.
 type=cudatext-plugin
 subdir=cuda_csv_hilite
@@ -12,6 +12,6 @@ lexers=CSV ^
 
 [item100]
 section=commands
-caption=CSV Hilite\Config
+caption=CSV Helper\Config
 method=config
 menu=o
