@@ -16,6 +16,7 @@ option_color_comma = '#000000'
 option_colors_fixed = '#0000FF,#00AA00,#E00000,#000080,#004400,#900000,#909000'
 option_colors_themed = 'Id,Id1,Id2,Id3,Id4,IdVar,String,Comment,Comment2,Label,Color'
 option_use_theme_colors = True
+option_separator =','
 
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
@@ -37,6 +38,7 @@ class Command:
         global option_colors_fixed
         global option_colors_themed
         global option_use_theme_colors
+        global option_separator        
         global PALETTE
         global COLOR_COMMA
 
@@ -44,6 +46,7 @@ class Command:
         option_colors_fixed = ini_read(fn_config, 'op', 'colors_fixed', option_colors_fixed)
         option_colors_themed = ini_read(fn_config, 'op', 'colors_themed', option_colors_themed)
         option_use_theme_colors = str_to_bool(ini_read(fn_config, 'op', 'use_theme_colors', bool_to_str(option_use_theme_colors)))
+        option_separator = ini_read(fn_config, 'op', 'separator', option_separator)        
 
         if option_use_theme_colors:
             COLOR_COMMA = _theme_item('Symbol')
@@ -58,6 +61,7 @@ class Command:
         ini_write(fn_config, 'op', 'colors_fixed', option_colors_fixed)
         ini_write(fn_config, 'op', 'colors_themed', option_colors_themed)
         ini_write(fn_config, 'op', 'use_theme_colors', bool_to_str(option_use_theme_colors))
+        ini_write(fn_config, 'op', 'separator', option_separator)        
         file_open(fn_config)
 
     def on_open(self, ed_self):
@@ -98,7 +102,7 @@ class Command:
             s = ed.get_text_line(line)
             if not s: continue
 
-            res = parse_csv_line(s)
+            res = parse_csv_line(s, sep=option_separator)
             if not res: continue
 
             for x1, x2, kind in res:
@@ -121,7 +125,7 @@ class Command:
 
         s = ed.get_text_line(0)
         if not s: return
-        res = parse_csv_line(s)
+        res = parse_csv_line(s, sep=option_separator)
         if not res: return
 
         for x1, x2, kind in res:
@@ -143,7 +147,7 @@ class Command:
         if not s: return
         if x>=len(s): return
 
-        res = parse_csv_line(s)
+        res = parse_csv_line(s, sep=option_separator)
         if not res: return
 
         for x1, x2, kind in res:
