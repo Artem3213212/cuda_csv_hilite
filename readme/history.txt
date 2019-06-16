@@ -1,4 +1,7 @@
 
+2019.06.16
++ add: option "separator" in config file (can set it to e.g. ";")
+
 2018.06.12
 - fix: CSV hilite in active non-CSV file
 - fix: not hilited lines on scrolling
