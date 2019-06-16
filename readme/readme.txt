@@ -8,6 +8,6 @@ column in the statubar (caption is read from the 1st line).
 Plugin has several options in config file. Call config by menu "Options / Settings-plugins / CSV Hilite".
 
 Authors:
-  Alexey T. (CudaText)
+  Alexey Torgashin (CudaText)
   Artem Gavrilov https://github.com/Artem3213212
 License: MIT
