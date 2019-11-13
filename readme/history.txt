@@ -1,4 +1,7 @@
 
+2019.11.14
+- avoid deleted API
+
 2019.06.16
 + add: option "separator" in config file (can set it to e.g. ";")
 

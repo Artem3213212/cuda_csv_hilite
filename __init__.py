@@ -21,12 +21,11 @@ option_separator =','
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
 
-_theme = app_proc(PROC_THEME_SYNTAX_DATA_GET, '')
+_theme = app_proc(PROC_THEME_SYNTAX_DICT_GET, '')
 
 def _theme_item(name):
-    for i in _theme:
-        if i['name']==name:
-            return i['color_font']
+    if name in _theme:
+        return _theme[name]['color_font']
     return 0x808080
 
 
