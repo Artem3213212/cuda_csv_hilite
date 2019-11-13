@@ -4,6 +4,7 @@ desc=Highlights columns in CSV files with different colors. Requires "CSV" lite 
 type=cudatext-plugin
 subdir=cuda_csv_hilite
 homepage=https://github.com/Artem3213212/cuda_csv_hilite
+api=1.0.302
 
 [item1]
 section=events
