@@ -9,7 +9,7 @@ TIMERTIME = 150
 TIMERCALL = 'module=cuda_csv_hilite;cmd=timer_tick;'
 NEED_LEXER = 'CSV ^'
 
-PALETTE = (0xFF0000,0x00AA00,0x0000FF,0x880000,0x004400,0x000088)
+PALETTE = (0xFF0000,0x00AA00,0x0000E0,0x800000,0x004400,0x000090,0x009090)
 COLOR_COMMA = 0x000000
 
 option_color_comma = '#000000'
@@ -23,10 +23,13 @@ def str_to_bool(s): return s=='1'
 
 _theme = app_proc(PROC_THEME_SYNTAX_DICT_GET, '')
 
+
 def _theme_item(name):
+
     if name in _theme:
         return _theme[name]['color_font']
-    return 0x808080
+    else:
+        return 0x808080
 
 
 class Command:
@@ -37,22 +40,15 @@ class Command:
         global option_colors_fixed
         global option_colors_themed
         global option_use_theme_colors
-        global option_separator        
-        global PALETTE
-        global COLOR_COMMA
+        global option_separator
 
         option_color_comma = ini_read(fn_config, 'op', 'color_comma', option_color_comma)
         option_colors_fixed = ini_read(fn_config, 'op', 'colors_fixed', option_colors_fixed)
         option_colors_themed = ini_read(fn_config, 'op', 'colors_themed', option_colors_themed)
         option_use_theme_colors = str_to_bool(ini_read(fn_config, 'op', 'use_theme_colors', bool_to_str(option_use_theme_colors)))
-        option_separator = ini_read(fn_config, 'op', 'separator', option_separator)        
+        option_separator = ini_read(fn_config, 'op', 'separator', option_separator)
 
-        if option_use_theme_colors:
-            COLOR_COMMA = _theme_item('Symbol')
-            PALETTE = [_theme_item(s) for s in option_colors_themed.split(',')]
-        else:
-            COLOR_COMMA = html_color_to_int(option_color_comma)
-            PALETTE = [html_color_to_int(s) for s in option_colors_fixed.split(',')]
+        self.update_colors()
 
     def config(self):
 
@@ -60,7 +56,7 @@ class Command:
         ini_write(fn_config, 'op', 'colors_fixed', option_colors_fixed)
         ini_write(fn_config, 'op', 'colors_themed', option_colors_themed)
         ini_write(fn_config, 'op', 'use_theme_colors', bool_to_str(option_use_theme_colors))
-        ini_write(fn_config, 'op', 'separator', option_separator)        
+        ini_write(fn_config, 'op', 'separator', option_separator)
         file_open(fn_config)
 
     def on_open(self, ed_self):
@@ -78,6 +74,17 @@ class Command:
         self.ed_ = ed_self
         self.update()
 
+    def on_state(self, ed_self, state):
+
+        global _theme
+
+        if state==APPSTATE_THEME_SYNTAX:
+            _theme = app_proc(PROC_THEME_SYNTAX_DICT_GET, '')
+
+            if self.update_colors():
+                self.ed_ = ed_self
+                self.update()
+
     def update(self):
 
         timer_proc(TIMER_STOP, TIMERCALL, 0)
@@ -86,6 +93,19 @@ class Command:
     def timer_tick(self, tag='', info=''):
 
         self.update_work()
+
+    def update_colors(self):
+        global PALETTE
+        global COLOR_COMMA
+
+        if option_use_theme_colors:
+            COLOR_COMMA = _theme_item('Symbol')
+            PALETTE = [_theme_item(s) for s in option_colors_themed.split(',')]
+            return True
+        else:
+            COLOR_COMMA = html_color_to_int(option_color_comma)
+            PALETTE = [html_color_to_int(s) for s in option_colors_fixed.split(',')]
+            return False
 
     def update_work(self):
 
