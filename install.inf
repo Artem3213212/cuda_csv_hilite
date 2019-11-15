@@ -8,7 +8,7 @@ api=1.0.302
 
 [item1]
 section=events
-events=on_open,on_scroll,on_change_slow,on_mouse_stop
+events=on_open,on_scroll,on_change_slow,on_state,on_mouse_stop
 lexers=CSV ^
 
 [item100]
