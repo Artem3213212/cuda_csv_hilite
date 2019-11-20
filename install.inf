@@ -11,6 +11,31 @@ section=events
 events=on_open,on_scroll,on_change_slow,on_state,on_mouse_stop
 lexers=CSV ^
 
+[item2]
+section=commands
+caption=CSV Helper\New column
+method=new_col
+
+[item3]
+section=commands
+caption=CSV Helper\New column at right
+method=rnew_col
+
+[item4]
+section=commands
+caption=CSV Helper\Current column delete
+method=del_current_col
+
+[item5]
+section=commands
+caption=CSV Helper\Current column move to the left
+method=move_left_current_col
+
+[item6]
+section=commands
+caption=CSV Helper\Current column move to the right
+method=move_right_current_col
+
 [item100]
 section=commands
 caption=CSV Helper\Config
