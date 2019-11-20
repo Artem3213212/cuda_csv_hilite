@@ -1,6 +1,6 @@
 [info]
 title=CSV Helper
-desc=Highlights columns in CSV files with different colors. Requires "CSV" lite lexer installed.
+desc=Highlights columns in CSV files with different colors. Gives several commands to manage columns. Requires "CSV" lite lexer installed.
 type=cudatext-plugin
 subdir=cuda_csv_hilite
 homepage=https://github.com/Artem3213212/cuda_csv_hilite
