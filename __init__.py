@@ -224,10 +224,8 @@ class Command:
         for i in parse_csv_line(line, sep=option_separator):
             if i[2] != -1:
                 parts.append(i)
-        print(parts)
         for p in parts:
             if x0 >= p[0] and x0 <= p[1]:
-                print(p[2])
                 return p[2]
 
     def current_col_do(self, what='del'):
