@@ -1,3 +1,6 @@
+# from debug import snoop
+
+
 def parse_csv_line(s, sep=",", quote='"'):
     """
     Parses one CSV line (by Artem)
@@ -42,7 +45,7 @@ def parse_csv_line(s, sep=",", quote='"'):
             break
     return []
 
-
+# @snoop()
 def parse_csv_line_as_dict(s, sep=",", quote='"'):
     """
     Parses one CSV line
@@ -52,36 +55,26 @@ def parse_csv_line_as_dict(s, sep=",", quote='"'):
     if not s:
         return {}
     res = {}
-    col, x, b = 0, 0, True
-    last = 0
-    for i, c in enumerate(s):
+    col, x0, b = 0, 0, True
+    for x1, c in enumerate(s):
         if c == sep and b:
-            if x != i:
-                res[col] = ([x, i])
-                last = col
-            else:
-                if i != 0:
-                    res[col][1] += 1
-                else:
-                    if x == 0:
-                        res[0] = [0, 0]
-            x = i + 1
+            res[col] = ([x0, x1])
+            x0 = x1 + 1
             col += 1
+            if x1 + 1 == len(s):
+                res[col] = ([x1+1, x1+1])
         elif c == quote:
             b = not b
-    if x != len(s):
-        res[col] = [x, len(s)]
+    if x0 != len(s):
+        res[col] = [x0, len(s)]
     if not b:
         return {}
-    s = s.replace(quote * 2, "")
-    i = -1
-    while True:
-        i = s.find(quote, i + 1)
-        if i == -1:
-            return res
-        if not (i == 0 or s[i - 1] == sep):
-            break
-        i = s.find(quote, i + 1)
-        if not (i == len(s) - 1 or s[i + 1] == sep):
-            break
+    else:
+        return res
     return {}
+
+
+if __name__ == '__main__':
+    print(parse_csv_line_as_dict('aa,,cc'))
+    print(parse_csv_line_as_dict(',aa,,cc'))
+    print(parse_csv_line_as_dict('"14  aa",,cc,'))
