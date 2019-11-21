@@ -3,6 +3,7 @@ import cudatext as ct
 import cudatext_cmd
 from cudax_lib import html_color_to_int
 from .csv_proc import parse_csv_line, parse_csv_line_as_dict
+# from debug import snoop
 
 
 fn_config = os.path.join(ct.app_path(ct.APP_DIR_SETTINGS), "cuda_csv_hilite.ini")
@@ -210,6 +211,7 @@ class Command:
                     ct.msg_status("Column %d (%s)" % (kind + 1, cap))
                 break
 
+    # @snoop()
     def get_current_col(self):
         carets = ct.ed.get_carets()
         if len(carets) > 1:
@@ -220,14 +222,11 @@ class Command:
             msg('selection not supported')
             return
         line = ct.ed.get_text_line(y0)
-        parts = []
-        for i in parse_csv_line(line, sep=option_separator):
-            if i[2] != -1:
-                parts.append(i)
-        for p in parts:
-            if x0 >= p[0] and x0 <= p[1]:
-                return p[2]
+        for k, v in parse_csv_line_as_dict(line, sep=option_separator).items():
+            if x0 >= v[0] and x0 <= v[1]:
+                return k
 
+    # @snoop()
     def current_col_do(self, what='del'):
         current_col = self.get_current_col()
         if current_col is None:
@@ -250,11 +249,11 @@ class Command:
             x0, x1 = _csv[current_col]
 
             if what == 'new':
-                ct.ed.insert(x0-1, y, option_separator)
+                new_text.append((x0, y))
                 markers.append((x0, y, y))
 
             elif what == 'rnew':
-                ct.ed.insert(x1+1, y, option_separator)
+                new_text.append((x1, y))
                 markers.append((x1+1, y, y))
 
             elif what == 'del':
@@ -288,9 +287,12 @@ class Command:
                         option_separator + line[x0:x1] + line[next_x1:]
                     new_text.append(new_line)
 
+        ct.ed.markers(ct.MARKERS_DELETE_ALL)
+
         if what in ['new', 'rnew']:
+            for s in new_text:
+                ct.ed.insert(*s, option_separator)
             markers.reverse()
-            ct.ed.markers(ct.MARKERS_DELETE_ALL)
             for m in markers:
                 ct.ed.markers(ct.MARKERS_ADD, *m)
             ct.ed.set_prop(ct.PROP_TAB_COLLECT_MARKERS, '1')
