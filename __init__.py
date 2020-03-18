@@ -130,16 +130,19 @@ class Command:
 
     def get_sep(self, ed):
 
-        if ed.get_prop(ct.PROP_LEXER_FILE, "") == LEXER_TSV:
+        lex = ed.get_prop(ct.PROP_LEXER_FILE, "")
+        if lex==LEXER_TSV:
             return '\t'
-        else:
+        elif lex==LEXER_CSV:
             return ','
+        else:
+            return ''
 
     def update_work(self):
 
         ed = self.ed_  # used ed_self here
-        lexer = ed.get_prop(ct.PROP_LEXER_FILE, "")
-        if lexer not in [LEXER_CSV, LEXER_TSV]:
+        sep = self.get_sep(ed)
+        if not sep:
             return
         ed.attr(ct.MARKERS_DELETE_BY_TAG, tag=MYTAG)
 
@@ -147,8 +150,6 @@ class Command:
         line1 = max(ed.get_prop(ct.PROP_LINE_TOP) - pagesize, 0)
         line2 = min(ed.get_prop(ct.PROP_LINE_BOTTOM) + pagesize,
                     ed.get_line_count() - 1)
-
-        sep = self.get_sep(ed)
 
         for line in range(line1, line2 + 1):
             s = ed.get_text_line(line)
