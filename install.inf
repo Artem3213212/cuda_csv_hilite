@@ -5,11 +5,12 @@ type=cudatext-plugin
 subdir=cuda_csv_hilite
 homepage=https://github.com/Artem3213212/cuda_csv_hilite
 api=1.0.302
+$lex=CSV ^,TSV ^
 
 [item1]
 section=events
 events=on_open,on_scroll,on_change_slow,on_state,on_mouse_stop
-lexers=CSV ^,TSV ^
+lexers=$lex
 
 [item2]
 section=commands
@@ -35,6 +36,17 @@ method=move_left_current_col
 section=commands
 caption=CSV Helper\Move current column to the right
 method=move_right_current_col
+
+[item20]
+section=commands
+caption=CSV Helper\-
+method=_
+
+[item21]
+section=commands
+caption=CSV Helper\Set separator for current document...
+method=set_sep
+lexers=$lex
 
 [item100]
 section=commands

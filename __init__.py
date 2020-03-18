@@ -130,6 +130,10 @@ class Command:
 
     def get_sep(self, ed):
 
+        # support custom separator per editor
+        s = ed.get_prop(ct.PROP_TAG, 'sep:')
+        if s:
+            return s
         lex = ed.get_prop(ct.PROP_LEXER_FILE, "")
         if lex==LEXER_TSV:
             return '\t'
@@ -329,3 +333,16 @@ class Command:
 
     def move_right_current_col(self):
         self.current_col_do('move_right')
+
+    def set_sep(self):
+
+        s = ct.dlg_input('Separator char:', ',')
+        if s is None:
+            return
+        if len(s) != 1:
+            msg('Incorrect separator: '+s)
+            return
+        ct.ed.set_prop(ct.PROP_TAG, 'sep:'+s)
+        self.update()
+        ct.ed.action(ct.EDACTION_UPDATE)
+
