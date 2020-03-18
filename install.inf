@@ -16,26 +16,31 @@ lexers=$lex
 section=commands
 caption=CSV Helper\Insert column
 method=new_col
+lexers=$lex
 
 [item3]
 section=commands
 caption=CSV Helper\Insert column, righter
 method=rnew_col
+lexers=$lex
 
 [item4]
 section=commands
 caption=CSV Helper\Delete current column
 method=del_current_col
+lexers=$lex
 
 [item5]
 section=commands
 caption=CSV Helper\Move current column to the left
 method=move_left_current_col
+lexers=$lex
 
 [item6]
 section=commands
 caption=CSV Helper\Move current column to the right
 method=move_right_current_col
+lexers=$lex
 
 [item20]
 section=commands
