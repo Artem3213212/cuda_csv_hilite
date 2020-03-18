@@ -336,13 +336,18 @@ class Command:
 
     def set_sep(self):
 
-        s = ct.dlg_input('Separator char:', ',')
+        sep = self.get_sep(ct.ed)
+        s = ct.dlg_input('Separator char:', sep)
         if s is None:
             return
+
+        if s == '\\t':
+            s = '\t'
+
         if len(s) != 1:
             msg('Incorrect separator: '+s)
             return
+
         ct.ed.set_prop(ct.PROP_TAG, 'sep:'+s)
         self.update()
         ct.ed.action(ct.EDACTION_UPDATE)
-
