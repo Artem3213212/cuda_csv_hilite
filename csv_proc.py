@@ -10,6 +10,9 @@ def parse_csv_line(s, sep=",", quote='"'):
     """
     if not s:
         return []
+    # disable quote for TSV
+    if sep == '\t':
+        quote = chr(1)
     res = []
     col, x, b = 0, 0, True
     for i, c in enumerate(s):
@@ -54,6 +57,9 @@ def parse_csv_line_as_dict(s, sep=",", quote='"'):
     """
     if not s:
         return {}
+    # disable quote for TSV
+    if sep == '\t':
+        quote = chr(1)
     res = {}
     col, x0, b = 0, 0, True
     for x1, c in enumerate(s):
