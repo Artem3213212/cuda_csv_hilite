@@ -9,9 +9,9 @@ from .csv_proc import parse_csv_line, parse_csv_line_as_dict
 fn_config = os.path.join(ct.app_path(ct.APP_DIR_SETTINGS), "cuda_csv_hilite.ini")
 MYTAG = 201
 TIMERTIME = 150
-PLUG_NAME = "CSV_HILITE: "
 TIMERCALL = "module=cuda_csv_hilite;cmd=timer_tick;"
-NEED_LEXER = "CSV ^"
+LEXER_CSV = "CSV ^"
+LEXER_TSV = "TSV ^"
 
 PALETTE = (0xFF0000, 0x00AA00, 0x0000E0, 0x800000, 0x004400, 0x000090, 0x009090)
 COLOR_COMMA = 0x000000
@@ -20,11 +20,10 @@ option_color_comma = "#000000"
 option_colors_fixed = "#0000FF,#00AA00,#E00000,#000080,#004400,#900000,#909000"
 option_colors_themed = "Id,Id1,Id2,Id3,Id4,IdVar,String,Comment,Comment2,Label,Color"
 option_use_theme_colors = True
-option_separator = ","
 
 
 def msg(s):
-    ct.msg_status('{}: {}'.format(PLUG_NAME, s))
+    ct.msg_status('CSV Helper: '+s)
 
 
 def bool_to_str(v):
@@ -52,7 +51,6 @@ class Command:
         global option_colors_fixed
         global option_colors_themed
         global option_use_theme_colors
-        global option_separator
 
         option_color_comma = ct.ini_read(
             fn_config, "op", "color_comma", option_color_comma
@@ -71,7 +69,6 @@ class Command:
                 bool_to_str(option_use_theme_colors),
             )
         )
-        option_separator = ct.ini_read(fn_config, "op", "separator", option_separator)
 
         self.update_colors()
 
@@ -81,7 +78,6 @@ class Command:
         ct.ini_write(fn_config, "op", "colors_fixed", option_colors_fixed)
         ct.ini_write(fn_config, "op", "colors_themed", option_colors_themed)
         ct.ini_write(fn_config, "op", "use_theme_colors", bool_to_str(option_use_theme_colors))
-        ct.ini_write(fn_config, "op", "separator", option_separator)
         ct.file_open(fn_config)
 
     def on_open(self, ed_self):
@@ -132,10 +128,18 @@ class Command:
             PALETTE = [html_color_to_int(s) for s in option_colors_fixed.split(",")]
             return False
 
+    def get_sep(self, ed):
+
+        if ed.get_prop(ct.PROP_LEXER_FILE, "") == LEXER_TSV:
+            return '\t'
+        else:
+            return ','
+
     def update_work(self):
 
         ed = self.ed_  # used ed_self here
-        if ed.get_prop(ct.PROP_LEXER_FILE, "") != NEED_LEXER:
+        lexer = ed.get_prop(ct.PROP_LEXER_FILE, "")
+        if lexer not in [LEXER_CSV, LEXER_TSV]:
             return
         ed.attr(ct.MARKERS_DELETE_BY_TAG, tag=MYTAG)
 
@@ -144,12 +148,14 @@ class Command:
         line2 = min(ed.get_prop(ct.PROP_LINE_BOTTOM) + pagesize,
                     ed.get_line_count() - 1)
 
+        sep = self.get_sep(ed)
+
         for line in range(line1, line2 + 1):
             s = ed.get_text_line(line)
             if not s:
                 continue
 
-            res = parse_csv_line(s, sep=option_separator)
+            res = parse_csv_line(s, sep=sep)
             if not res:
                 continue
 
@@ -169,12 +175,12 @@ class Command:
                     color_bg=ct.COLOR_NONE,
                 )
 
-    def get_header(self, ed, n):
+    def get_header(self, ed, n, sep):
 
         s = ed.get_text_line(0)
         if not s:
             return
-        res = parse_csv_line(s, sep=option_separator)
+        res = parse_csv_line(s, sep=sep)
         if not res:
             return
 
@@ -200,19 +206,20 @@ class Command:
         if x >= len(s):
             return
 
-        res = parse_csv_line(s, sep=option_separator)
+        sep = self.get_sep(ed_self)
+        res = parse_csv_line(s, sep=sep)
         if not res:
             return
 
         for x1, x2, kind in res:
             if x1 <= x < x2:
                 if kind >= 0:
-                    cap = self.get_header(ed_self, kind) or "?"
+                    cap = self.get_header(ed_self, kind, sep) or "?"
                     ct.msg_status("Column %d (%s)" % (kind + 1, cap))
                 break
 
     # @snoop()
-    def get_current_col(self):
+    def get_current_col(self, sep):
         carets = ct.ed.get_carets()
         if len(carets) > 1:
             msg('multi-carets not supported')
@@ -222,13 +229,15 @@ class Command:
             msg('selection not supported')
             return
         line = ct.ed.get_text_line(y0)
-        for k, v in parse_csv_line_as_dict(line, sep=option_separator).items():
+        for k, v in parse_csv_line_as_dict(line, sep=sep).items():
             if x0 >= v[0] and x0 <= v[1]:
                 return k
 
     # @snoop()
     def current_col_do(self, what='del'):
-        current_col = self.get_current_col()
+
+        sep = self.get_sep(ct.ed)
+        current_col = self.get_current_col(sep)
         if current_col is None:
             return
         lines = ct.ed.get_text_all().split('\n')
@@ -239,7 +248,7 @@ class Command:
         new_text = []
         markers = []
         for y, line in enumerate(lines):
-            _csv = parse_csv_line_as_dict(line, sep=option_separator)
+            _csv = parse_csv_line_as_dict(line, sep=sep)
             if not _csv:
                 break
             last_col = max(_csv.keys())
@@ -273,7 +282,7 @@ class Command:
                     if y == cur_y0:
                         cur_x0 = cur_x0 - x0 + prev_x0
                     new_line = line[:prev_x0] + line[x0:x1] +\
-                        option_separator + line[prev_x0:prev_x1] + line[x1:]
+                        sep + line[prev_x0:prev_x1] + line[x1:]
                     new_text.append(new_line)
 
             elif what == 'move_right':
@@ -284,14 +293,14 @@ class Command:
                     if y == cur_y0:
                         cur_x0 = cur_x0 + next_x1 - next_x0 + 1
                     new_line = line[:x0] + line[next_x0:next_x1] +\
-                        option_separator + line[x0:x1] + line[next_x1:]
+                        sep + line[x0:x1] + line[next_x1:]
                     new_text.append(new_line)
 
         ct.ed.markers(ct.MARKERS_DELETE_ALL)
 
         if what in ['new', 'rnew']:
             for s in new_text:
-                ct.ed.insert(*s, option_separator)
+                ct.ed.insert(*s, sep)
             markers.reverse()
             for m in markers:
                 ct.ed.markers(ct.MARKERS_ADD, *m)
