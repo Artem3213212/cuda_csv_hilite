@@ -1,13 +1,15 @@
 Plugin for CudaText.
-For CSV files, it highlights different CSV columns in different colors.
-Requires "CSV" pseudo lexer (empty) from Addon Manager, install this lexer first.
+For CSV (comma-separated values) and TSV (tab-separated values), plugin highlights
+different columns in different colors.
+Requires "CSV" and "TSV" pseudo lexers (plugin has these lexers as requirements
+in Addon Manager, so they are usually auto-intalled).
 
-Also plugin handles hovering mouse over text: it shows index/caption of current CSV 
-column in the statubar (caption is read from the 1st line).
+Also plugin handles hovering mouse over text: it shows index/caption of current 
+column in the statubar (caption is read from the first line).
 
-Plugin has several commands for manage CSV columns.
+Plugin has several commands for manage columns.
 
-Plugin has several options in config file. Call config by menu "Options / Settings-plugins / CSV Hilite".
+Plugin has several options in config file. Call config by menu "Options / Settings-plugins / CSV Helper".
 
 Authors:
   Alexey Torgashin (CudaText)

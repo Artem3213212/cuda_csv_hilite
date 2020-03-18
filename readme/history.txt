@@ -1,3 +1,8 @@
+
+2020.03.19
++ add: work with TSV files (tab-separated values); plugin requires TSV^ lite lexer
+* removed option "option_separator"
+
 2019.11.20
 + add: command "Insert column"
 + add: command "Insert column, righter"
