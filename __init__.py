@@ -20,7 +20,7 @@ option_color_comma = "#000000"
 option_colors_fixed = "#0000FF,#00AA00,#E00000,#000080,#004400,#900000,#909000"
 option_colors_themed = "Id,Id1,Id2,Id3,Id4,IdVar,String,Comment,Comment2,Label,Color"
 option_use_theme_colors = True
-
+option_separator = ","
 
 def msg(s):
     ct.msg_status('CSV Helper: '+s)
@@ -51,6 +51,7 @@ class Command:
         global option_colors_fixed
         global option_colors_themed
         global option_use_theme_colors
+        global option_separator
 
         option_color_comma = ct.ini_read(
             fn_config, "op", "color_comma", option_color_comma
@@ -70,6 +71,10 @@ class Command:
             )
         )
 
+        option_separator = ct.ini_read(
+            fn_config, "op", "separator", option_separator
+        )
+
         self.update_colors()
 
     def config(self):
@@ -78,6 +83,7 @@ class Command:
         ct.ini_write(fn_config, "op", "colors_fixed", option_colors_fixed)
         ct.ini_write(fn_config, "op", "colors_themed", option_colors_themed)
         ct.ini_write(fn_config, "op", "use_theme_colors", bool_to_str(option_use_theme_colors))
+        ct.ini_write(fn_config, "op", "separator", option_separator)
         ct.file_open(fn_config)
 
     def on_open(self, ed_self):
@@ -130,6 +136,8 @@ class Command:
 
     def get_sep(self, ed):
 
+        global option_separator
+
         # support custom separator per editor
         s = ed.get_prop(ct.PROP_TAG, 'sep:')
         if s:
@@ -138,7 +146,7 @@ class Command:
         if lex==LEXER_TSV:
             return '\t'
         elif lex==LEXER_CSV:
-            return ','
+            return option_separator
         else:
             return ''
 

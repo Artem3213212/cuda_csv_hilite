@@ -1,4 +1,7 @@
 
+2020.03.22
++ add: restored option "option_separator" (used for CSV^ lexer)
+
 2020.03.19
 + add: command "Set separator for current document"
 + add: work with TSV files (tab-separated values); plugin requires TSV^ lite lexer
