@@ -12,6 +12,11 @@ section=events
 events=on_open,on_scroll,on_change_slow,on_state,on_mouse_stop
 lexers=$lex
 
+[item11]
+section=events
+events=on_save~
+lexers=Ini files
+
 [item2]
 section=commands
 caption=CSV Helper\Insert column

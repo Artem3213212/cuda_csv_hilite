@@ -7,6 +7,7 @@ from .csv_proc import parse_csv_line, parse_csv_line_as_dict
 
 
 fn_config = os.path.join(ct.app_path(ct.APP_DIR_SETTINGS), "cuda_csv_hilite.ini")
+
 MYTAG = 201
 TIMERTIME = 150
 TIMERCALL = "module=cuda_csv_hilite;cmd=timer_tick;"
@@ -21,6 +22,7 @@ option_colors_fixed = "#0000FF,#00AA00,#E00000,#000080,#004400,#900000,#909000"
 option_colors_themed = "Id,Id1,Id2,Id3,Id4,IdVar,String,Comment,Comment2,Label,Color"
 option_use_theme_colors = True
 option_separator = ","
+
 
 def msg(s):
     ct.msg_status('CSV Helper: '+s)
@@ -90,6 +92,11 @@ class Command:
 
         self.ed_ = ed_self
         self.update()
+
+    def on_save(self, ed_self):
+
+        if ed_self.get_filename('*').lower() == fn_config.lower():
+            self.__init__()
 
     def on_scroll(self, ed_self):
 
