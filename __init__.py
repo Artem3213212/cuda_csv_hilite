@@ -7,7 +7,6 @@ from .csv_proc import parse_csv_line, parse_csv_line_as_dict
 
 
 fn_config = os.path.join(ct.app_path(ct.APP_DIR_SETTINGS), "cuda_csv_hilite.ini")
-reload_settings = False
 
 MYTAG = 201
 TIMERTIME = 150
@@ -82,16 +81,12 @@ class Command:
 
     def config(self):
 
-        global reload_settings
-
         ct.ini_write(fn_config, "op", "color_comma", option_color_comma)
         ct.ini_write(fn_config, "op", "colors_fixed", option_colors_fixed)
         ct.ini_write(fn_config, "op", "colors_themed", option_colors_themed)
         ct.ini_write(fn_config, "op", "use_theme_colors", bool_to_str(option_use_theme_colors))
         ct.ini_write(fn_config, "op", "separator", option_separator)
         ct.file_open(fn_config)
-
-        reload_settings = True
 
     def on_open(self, ed_self):
 
@@ -100,15 +95,8 @@ class Command:
 
     def on_save(self, ed_self):
 
-        if reload_settings and ed_self.get_filename('*').lower() == fn_config.lower():
+        if ed_self.get_filename('*').lower() == fn_config.lower():
             self.__init__()
-
-    def on_close_pre(self, ed_self):
-
-        global reload_settings
-
-        if reload_settings and ed_self.get_filename('*').lower() == fn_config.lower():
-            reload_settings = False
 
     def on_scroll(self, ed_self):
 

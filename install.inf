@@ -14,7 +14,7 @@ lexers=$lex
 
 [item11]
 section=events
-events=on_save,on_close_pre
+events=on_save~
 lexers=Ini files
 
 [item2]
