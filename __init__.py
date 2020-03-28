@@ -7,6 +7,8 @@ from .csv_proc import parse_csv_line, parse_csv_line_as_dict
 
 
 fn_config = os.path.join(ct.app_path(ct.APP_DIR_SETTINGS), "cuda_csv_hilite.ini")
+reload_settings = False
+
 MYTAG = 201
 TIMERTIME = 150
 TIMERCALL = "module=cuda_csv_hilite;cmd=timer_tick;"
@@ -21,6 +23,7 @@ option_colors_fixed = "#0000FF,#00AA00,#E00000,#000080,#004400,#900000,#909000"
 option_colors_themed = "Id,Id1,Id2,Id3,Id4,IdVar,String,Comment,Comment2,Label,Color"
 option_use_theme_colors = True
 option_separator = ","
+
 
 def msg(s):
     ct.msg_status('CSV Helper: '+s)
@@ -79,6 +82,8 @@ class Command:
 
     def config(self):
 
+        global reload_settings
+
         ct.ini_write(fn_config, "op", "color_comma", option_color_comma)
         ct.ini_write(fn_config, "op", "colors_fixed", option_colors_fixed)
         ct.ini_write(fn_config, "op", "colors_themed", option_colors_themed)
@@ -86,10 +91,24 @@ class Command:
         ct.ini_write(fn_config, "op", "separator", option_separator)
         ct.file_open(fn_config)
 
+        reload_settings = True
+
     def on_open(self, ed_self):
 
         self.ed_ = ed_self
         self.update()
+
+    def on_save(self, ed_self):
+
+        if reload_settings and ed_self.get_filename('*').lower() == fn_config.lower():
+            self.__init__()
+
+    def on_close_pre(self, ed_self):
+
+        global reload_settings
+
+        if reload_settings and ed_self.get_filename('*').lower() == fn_config.lower():
+            reload_settings = False
 
     def on_scroll(self, ed_self):
 

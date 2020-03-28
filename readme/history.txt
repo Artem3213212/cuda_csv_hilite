@@ -1,3 +1,5 @@
+2020.03.28
++ add: changing plugin config file triggers config reload
 
 2020.03.22
 + add: restored option "option_separator" (used for CSV^ lexer)
