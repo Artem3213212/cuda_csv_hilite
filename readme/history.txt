@@ -1,3 +1,7 @@
+
+2021.03.13
++ add: use new API
+
 2020.03.28
 + add: changing plugin config file triggers config reload
 

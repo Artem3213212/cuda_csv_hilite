@@ -8,7 +8,7 @@ from .csv_proc import parse_csv_line, parse_csv_line_as_dict
 
 fn_config = os.path.join(ct.app_path(ct.APP_DIR_SETTINGS), "cuda_csv_hilite.ini")
 
-MYTAG = 201
+MYTAG = ct.app_proc(ct.PROC_GET_UNIQUE_TAG, '')
 TIMERTIME = 150
 TIMERCALL = "module=cuda_csv_hilite;cmd=timer_tick;"
 LEXER_CSV = "CSV ^"
