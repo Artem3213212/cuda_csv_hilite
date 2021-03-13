@@ -4,7 +4,7 @@ desc=Highlights columns in CSV and TSV files with different colors. Gives severa
 type=cudatext-plugin
 subdir=cuda_csv_hilite
 homepage=https://github.com/Artem3213212/cuda_csv_hilite
-api=1.0.302
+api=1.0.357
 $lex=CSV ^,TSV ^
 
 [item1]
