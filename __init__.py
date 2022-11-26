@@ -126,9 +126,12 @@ class Command:
 
     def timer_tick(self, tag="", info=""):
 
+        if self.ed_ is None:
+            self.ed_ = ct.ed
         self.update_work()
 
     def update_colors(self):
+
         global PALETTE
         global COLOR_COMMA
 
