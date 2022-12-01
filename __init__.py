@@ -5,6 +5,9 @@ from cudax_lib import html_color_to_int
 from .csv_proc import parse_csv_line, parse_csv_line_as_dict
 # from debug import snoop
 
+from cudax_lib import get_translation
+_ = get_translation(__file__)  # I18N
+
 
 fn_config = os.path.join(ct.app_path(ct.APP_DIR_SETTINGS), "cuda_csv_hilite.ini")
 
@@ -25,7 +28,7 @@ option_separator = ","
 
 
 def msg(s):
-    ct.msg_status('CSV Helper: '+s)
+    ct.msg_status(_('CSV Helper: ')+s)
 
 
 def bool_to_str(v):
@@ -238,18 +241,18 @@ class Command:
             if x1 <= x < x2:
                 if kind >= 0:
                     cap = self.get_header(ed_self, kind, sep) or "?"
-                    ct.msg_status("Column %d (%s)" % (kind + 1, cap))
+                    ct.msg_status(_("Column %d (%s)") % (kind + 1, cap))
                 break
 
     # @snoop()
     def get_current_col(self, sep):
         carets = ct.ed.get_carets()
         if len(carets) > 1:
-            msg('multi-carets not supported')
+            msg(_('multi-carets not supported'))
             return
         x0, y0, x1, y1 = carets[0]
         if x1 != -1 or y1 != -1:
-            msg('selection not supported')
+            msg(_('selection not supported'))
             return
         line = ct.ed.get_text_line(y0)
         for k, v in parse_csv_line_as_dict(line, sep=sep).items():
@@ -276,7 +279,7 @@ class Command:
                 break
             last_col = max(_csv.keys())
             if last_col < current_col:
-                msg('file contains a different number of columns')
+                msg(_('file contains a different number of columns'))
                 return
             x0, x1 = _csv[current_col]
 
@@ -355,7 +358,7 @@ class Command:
     def set_sep(self):
 
         sep = self.get_sep(ct.ed)
-        s = ct.dlg_input('Separator char:', sep)
+        s = ct.dlg_input(_('Separator char:'), sep)
         if s is None:
             return
 
@@ -363,7 +366,7 @@ class Command:
             s = '\t'
 
         if len(s) != 1:
-            msg('Incorrect separator: '+s)
+            msg(_('Incorrect separator: ')+s)
             return
 
         ct.ed.set_prop(ct.PROP_TAG, 'sep:'+s)
