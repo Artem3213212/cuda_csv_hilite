@@ -372,3 +372,12 @@ class Command:
         ct.ed.set_prop(ct.PROP_TAG, 'sep:'+s)
         self.update()
         ct.ed.action(ct.EDACTION_UPDATE)
+
+    def on_lexer(self, ed_self):
+
+        ed_self.attr(ct.MARKERS_DELETE_BY_TAG, tag=MYTAG)
+
+        lex = ed_self.get_prop(ct.PROP_LEXER_FILE, "")
+        if lex in [LEXER_CSV, LEXER_TSV]:
+            self.ed_ = ed_self
+            self.update_work()
