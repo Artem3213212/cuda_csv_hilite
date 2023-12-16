@@ -11,9 +11,9 @@ section=events
 events=on_open,on_scroll,on_change_slow,on_state,on_mouse_stop
 lexers=$lex
 
-[item1b]
+[item2]
 section=events
-events=on_lexer~
+events=on_start,on_lexer~
 
 [item11]
 section=events

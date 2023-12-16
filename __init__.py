@@ -91,6 +91,11 @@ class Command:
         ct.ini_write(fn_config, "op", "separator", option_separator)
         ct.file_open(fn_config)
 
+    def on_start(self, ed_self):
+
+        ct.lexer_proc(ct.LEXER_ADD_VIRTUAL, ('CSV', '*.csv', '', '', ''))
+        ct.lexer_proc(ct.LEXER_ADD_VIRTUAL, ('TSV', '*.tsv', '', '', ''))
+
     def on_open(self, ed_self):
 
         self.ed_ = ed_self
