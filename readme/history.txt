@@ -1,8 +1,11 @@
+2023.12.16
++ add: plugin now don't need installed lite lexers CSV^ and TSV^, so remove them from folder "data/lexliblite"; plugin will create these lexers as 'virtual' lexers on startup, so lexers will be still visible
+
 2022.12.28
 + add: react to lexer changing by user
 
 2022.12.01
-+ add: i18n support (my Markus)
++ add: i18n support (by Markus)
 
 2021.03.13
 + add: use new API
