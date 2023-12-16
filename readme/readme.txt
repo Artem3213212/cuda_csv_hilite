@@ -11,7 +11,9 @@ column in the statubar (caption is read from the first line).
 
 * Plugin has several commands for manage columns.
 
-* Plugin has several options in config file. Call config by menu "Options / Settings-plugins / CSV Helper". Typical config file (in INI format) looks like this:
+* Plugin has several options in config file.
+Call menu item: "Options / Settings-plugins / CSV Helper / Config".
+Typical config file (in INI format) looks like this:
 
 [op]
 color_comma=#000000
@@ -20,7 +22,7 @@ colors_themed=Id,Id1,Id2,Id3,Id4,IdVar,String,Comment,Comment2,Label,Color
 use_theme_colors=1
 separator=,
 
-After changing config file perform a reload of opened CSV and TSV files in order
+After changing config file, perform a reload of opened CSV and TSV files in order
 to apply new settings.
 
 
