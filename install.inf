@@ -1,9 +1,9 @@
 [info]
 title=CSV Helper
-desc=Highlights columns in CSV and TSV files with different colors. Gives several commands to manage columns. Requires "CSV ^" and "TSV ^" lite lexers installed.
+desc=Highlights columns in CSV and TSV files with different colors. Gives several commands to manage columns.
 type=cudatext-plugin
 subdir=cuda_csv_hilite
-homepage=https://github.com/Artem3213212/cuda_csv_hilite
+homepage=https://github.com/CudaText-addons/cuda_csv_hilite
 $lex=CSV ^,TSV ^
 
 [item1]
