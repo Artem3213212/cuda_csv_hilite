@@ -1,10 +1,10 @@
 Plugin for CudaText.
 For CSV (comma-separated values) and TSV (tab-separated values), plugin highlights
 different columns in different colors.
-Requires "CSV" and "TSV" pseudo lexers (plugin has these lexers as requirements
-in Addon Manager, so they are usually auto-intalled).
+Plugin creates "CSV ^" and "TSV ^" lexers at startup (without creating files,
+these are 'virtual' lexers), and these lexers are used to detect data files.
 
-Also plugin handles hovering mouse over text: it shows index/caption of current
+Plugin handles hovering mouse over text: it shows index/caption of current
 column in the statubar (caption is read from the first line).
 
 Plugin has several commands for manage columns.
